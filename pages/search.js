@@ -2,20 +2,20 @@ import { useRouter } from "next/dist/client/router";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { format } from "date-fns";
+import InfoCard from "./components/InfoCard";
 
-function search() {
+function Search({ searchResults }) {
   const router = useRouter();
   const { location, startDate, endDate, noOfGuests } = router.query;
 
-  console.log(startDate, endDate)
   const formattedStartDate = format(new Date(startDate), "dd MMMM yy");
   const formattedEndDate = format(new Date(endDate), "dd MMMM yy");
 
-  const range = `${formattedStartDate} - ${formattedEndDate}`
+  const range = `${formattedStartDate} - ${formattedEndDate}`;
 
   return (
     <div>
-      <Header />
+      <Header placeholder={`${location} | ${range} | ${noOfGuests} guests`} />
       <main className="flex">
         <section className="flex-grow pt-14 px-6">
           <p className="text-xs">
@@ -33,6 +33,25 @@ function search() {
             <p className="button">Rooms and beds</p>
             <p className="button">More Filters</p>
           </div>
+
+          <div className='flex flex-col'>
+            {searchResults.map(
+              ({ description, img, lat, location, long, price, star, title, total }) => (
+                <InfoCard
+                  key={img}
+                  description={description}
+                  img={img}
+                  lat={lat}
+                  location={location}
+                  long={long}
+                  price={price}
+                  star={star}
+                  title={title}
+                  total={total}
+                />
+              )
+            )}
+          </div>
         </section>
       </main>
 
@@ -41,4 +60,14 @@ function search() {
   );
 }
 
-export default search;
+export default Search;
+
+export async function getServerSideProps() {
+  const searchResults = await fetch("https://links.papareact.com/isz").then(
+    (res) => res.json()
+  );
+
+  return {
+    props: { searchResults }, // will be passed to the page component as props
+  };
+}
