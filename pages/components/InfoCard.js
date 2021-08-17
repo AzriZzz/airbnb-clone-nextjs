@@ -1,6 +1,7 @@
 import { HeartIcon } from "@heroicons/react/outline";
 import { StarIcon } from "@heroicons/react/solid";
 import Image from "next/image";
+import Skeleton from 'react-loading-skeleton';
 
 function InfoCard({ description, img, lat, location, long, price, star, title, total }) {
 
@@ -23,7 +24,10 @@ function InfoCard({ description, img, lat, location, long, price, star, title, t
         <p className='pt-2 text-sm text-gray-500 flex-grow'>{description}</p>
 
         <div className='flex justify-between items-end'>
-          <p className='flex items-center'><StarIcon className='h-5 text-red-400' />{star}</p>
+          <p className='flex items-center'><StarIcon className='h-5 text-red-400' />
+            {star} 
+            <span className='pl-1 text-gray-400'>(5 reviews)</span>
+          </p>
           <div>
             <p className='text-lg lg:text-2xl font-semibold pb-2 '>{price}</p>
             <p className='text-right font-extralight'>{total}</p>
