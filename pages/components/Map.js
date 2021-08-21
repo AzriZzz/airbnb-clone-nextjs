@@ -1,61 +1,77 @@
-import { useState } from "react"
-import ReactMapGl, { Marker, Popup } from "react-map-gl"
-import getCenter from "geolib/es/getCenter"
-function Map({ s }) {
-  const [select, setSelect] = useState({})
+import { useState } from "react";
+import ReactMapGL, { Marker, Popup } from "react-map-gl";
+import getCenter from "geolib/es/getCenter";
 
-  const cod = s.map((r) => ({
-    latitude: r.lat,
-    longitude: r.long,
-  }))
-  const center = getCenter(cod)
-  const [viewport, setViewport] = useState({
+function Map({ searchResults }) {
+  const [selectedLocation, setSelectedLocation] = useState({});
+
+  //transform new object to have only latitude and longitude
+  const coordinates = searchResults?.map((result) => ({
+    longitude: result.long,
+    latitude: result.lat,
+  }));
+
+  // const coordinates = [];
+  // searchResults?.forEach((result) => {
+  //   coordinates.push({
+  //     longitude: result.long,
+  //     latitude: result.lat,
+  //   });
+  // });
+
+  // console.log(coordinates);
+
+  // the latitude and longitude of the center of locations coordinates
+  const center = getCenter(coordinates);
+
+  const [viewport, setViwport] = useState({
+    width: "100%",
+    height: "100%",
     latitude: center.latitude,
     longitude: center.longitude,
     zoom: 11,
-  })
+  });
+
   return (
-    <ReactMapGl
-      mapStyle='mapbox://styles/zigcer/cks0i5zbf2bmq18nn41layy0m'
+    <ReactMapGL
+      mapStyle="mapbox://styles/azrizzzz/ckslu9jmt0tiq17lz7zqgk2em"
       mapboxApiAccessToken={process.env.mapbox_key}
       {...viewport}
-      width='100%'
-      height='100%'
-      onViewportChange={(n) => setViewport(n)}
+      onViewportChange={(nextViewport) => setViwport(nextViewport)}
     >
-      {s.map((r) => (
-        <div key={r.long}>
+      {searchResults.map((result) => (
+        <div key={result.long}>
           <Marker
-            longitude={r.long}
-            latitude={r.lat}
+            longitude={result.long}
+            latitude={result.lat}
             offsetLeft={-20}
             offsetTop={-10}
           >
             <p
-              role='img'
-              onClick={() => setSelect(r)}
-              aria-label='push pin'
-              className='cursor-pointer  text-2xl animate-bounce'
+              role="img"
+              onClick={() => setSelectedLocation(result)}
+              className="cursor-pointer text-2xl animate-bounce"
+              aria-label="push-pin"
             >
               📌
             </p>
           </Marker>
-          {select?.long === r.long ? (
+          {selectedLocation.long === result.long ? (
             <Popup
-              onClose={() => setSelect({})}
-              latitude={r.lat}
-              longitude={r.long}
+              onClose={() => setSelectedLocation({})}
               closeOnClick={true}
+              latitude={result.lat}
+              longitude={result.long}
             >
-              {r.title}
+              {result.title}
             </Popup>
           ) : (
             false
           )}
         </div>
-      ))}
-    </ReactMapGl>
-  )
+      ))} 
+    </ReactMapGL>
+  );
 }
 
-export default Map
+export default Map;
