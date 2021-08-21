@@ -7,8 +7,8 @@ function Map({ searchResults }) {
 
   //transform new object to have only latitude and longitued
   const coordinates = searchResults.map((results) => ({
-    longitude: results.long,
-    latitude: results.lat,
+    longitude: results?.long,
+    latitude: results?.lat,
   }));
 
   // the latitude and longitude of the center of locations coordinates
