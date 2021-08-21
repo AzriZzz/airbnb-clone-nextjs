@@ -51,12 +51,12 @@ function Map({ searchResults }) {
               role="img"
               onClick={() => setSelectedLocation(result)}
               className="cursor-pointer text-2xl animate-bounce"
-              aria-label="push-pin"
+              aria-label="push pin"
             >
               📌
             </p>
           </Marker>
-          {selectedLocation.long === result.long ? (
+          {selectedLocation?.long === result.long ? (
             <Popup
               onClose={() => setSelectedLocation({})}
               closeOnClick={true}
