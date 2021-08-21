@@ -39,7 +39,40 @@ function Map({ searchResults }) {
       {...viewport}
       onViewportChange={(nextViewport) => setViwport(nextViewport)}
     >
-      {searchResults.map((result) => (
+      {searchResults.forEach( result => (
+        <div key={result.long}>
+        <Marker
+          longitude={result.long}
+          latitude={result.lat}
+          offsetLeft={-20}
+          offsetTop={-10}
+        >
+          <p
+            role="img"
+            onClick={() => setSelectedLocation(result)}
+            className="cursor-pointer text-2xl animate-bounce"
+            aria-label="push-pin"
+          >
+            📌
+          </p>
+        </Marker>
+        {/* The popup show if marker is clicked */}
+        {selectedLocation.long === result.long ? (
+          <Popup
+            onClose={() => setSelectedLocation({})}
+            closeOnClick={true}
+            latitude={result.lat}
+            longitude={result.long}
+          >
+            {result.title}
+          </Popup>
+        ) : (
+          false
+        )}
+      </div>
+      ))}
+      
+      {/* {searchResults.map((result) => (
         <div key={result.long}>
           <Marker
             longitude={result.long}
@@ -56,7 +89,6 @@ function Map({ searchResults }) {
               📌
             </p>
           </Marker>
-          {/* The popup show if marker is clicked */}
           {selectedLocation.long === result.long ? (
             <Popup
               onClose={() => setSelectedLocation({})}
@@ -69,8 +101,8 @@ function Map({ searchResults }) {
           ) : (
             false
           )}
-        </div>
-      ))}
+        </div> */}
+      {/* ))} */}
     </ReactMapGL>
   );
 }
