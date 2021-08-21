@@ -6,7 +6,7 @@ function Maps({ searchResults }) {
   const [selectedLocation, setSelectedLocation] = useState({});
 
   //transform new object to have only latitude and longitued
-  const coordinates = searchResults.map((results) => ({
+  const coordinates = searchResults?.map((results) => ({
     longitude: results?.long,
     latitude: results?.lat,
   }));
