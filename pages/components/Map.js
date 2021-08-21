@@ -24,9 +24,7 @@ function Map({ searchResults }) {
   // the latitude and longitude of the center of locations coordinates
   const center = getCenter(coordinates);
 
-  const [viewport, setViwport] = useState({
-    width: "100%",
-    height: "100%",
+  const [viewport, setViewport] = useState({
     latitude: center.latitude,
     longitude: center.longitude,
     zoom: 11,
@@ -37,7 +35,9 @@ function Map({ searchResults }) {
       mapStyle="mapbox://styles/azrizzzz/ckslu9jmt0tiq17lz7zqgk2em"
       mapboxApiAccessToken={process.env.mapbox_key}
       {...viewport}
-      onViewportChange={(nextViewport) => setViwport(nextViewport)}
+      width= "100%"
+      height= "100%"
+      onViewportChange={(nextViewport) => setViewport(nextViewport)}
     >
       {searchResults.map((result) => (
         <div key={result.long}>

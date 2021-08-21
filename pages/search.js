@@ -72,9 +72,18 @@ export async function getServerSideProps() {
     (res) => res.json()
   );
 
+  if (!searchResults) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+
   return {
     props: { 
       searchResults 
-    }, // will be passed to the page component as props
-  };
+    },
+  }
 }
