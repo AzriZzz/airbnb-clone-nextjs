@@ -11,16 +11,6 @@ function Map({ searchResults }) {
     latitude: result.lat,
   }));
 
-  // const coordinates = [];
-  // searchResults?.forEach((result) => {
-  //   coordinates.push({
-  //     longitude: result.long,
-  //     latitude: result.lat,
-  //   });
-  // });
-
-  // console.log(coordinates);
-
   // the latitude and longitude of the center of locations coordinates
   const center = getCenter(coordinates);
 
@@ -35,11 +25,11 @@ function Map({ searchResults }) {
       mapStyle="mapbox://styles/azrizzzz/ckslu9jmt0tiq17lz7zqgk2em"
       mapboxApiAccessToken={process.env.mapbox_key}
       {...viewport}
-      width= "100%"
-      height= "100%"
+      width="100%"
+      height="100%"
       onViewportChange={(nextViewport) => setViewport(nextViewport)}
     >
-      {searchResults.map((result) => (
+      {searchResults?.map((result) => (
         <div key={result.long}>
           <Marker
             longitude={result.long}
@@ -69,7 +59,7 @@ function Map({ searchResults }) {
             false
           )}
         </div>
-      ))} 
+      ))}
     </ReactMapGL>
   );
 }
