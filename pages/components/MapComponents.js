@@ -2,7 +2,7 @@ import { useState } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import getCenter from "geolib/es/getCenter";
 
-function Maps({ searchResults }) {
+function MapComponents({ searchResults }) {
   const [selectedLocation, setSelectedLocation] = useState({});
 
   //transform new object to have only latitude and longitued
@@ -65,4 +65,4 @@ function Maps({ searchResults }) {
   );
 }
 
-export default Maps;
+export default MapComponents;
