@@ -3,12 +3,13 @@ import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import getCenter from "geolib/es/getCenter";
 
 function Map({ searchResults }) {
+  const data = searchResults;
   const [selectedLocation, setSelectedLocation] = useState({});
 
   //transform new object to have only latitude and longitued
-  const coordinates = searchResults?.map((results) => ({
-    longitude: results?.long,
-    latitude: results?.lat,
+  const coordinates = data.map((results) => ({
+    longitude: results.long,
+    latitude: results.lat,
   }));
 
   // the latitude and longitude of the center of locations coordinates
