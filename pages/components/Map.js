@@ -1,110 +1,61 @@
-import { useState } from "react";
-import ReactMapGL, { Marker, Popup } from "react-map-gl";
-import getCenter from "geolib/es/getCenter";
+import { useState } from "react"
+import ReactMapGl, { Marker, Popup } from "react-map-gl"
+import getCenter from "geolib/es/getCenter"
+function Map({ s }) {
+  const [select, setSelect] = useState({})
 
-function Map({ searchResults }) {
-  const [selectedLocation, setSelectedLocation] = useState({});
-
-  //transform new object to have only latitude and longitude
-  // const coordinates = searchResults?.map((result) => ({
-  //   longitude: result.long,
-  //   latitude: result.lat,
-  // }));
-
-  const coordinates = [];
-  searchResults?.forEach((result) => {
-    coordinates.push({
-      longitude: result.long,
-      latitude: result.lat,
-    });
-  });
-
-  console.log(coordinates);
-
-  // the latitude and longitude of the center of locations coordinates
-  const center = getCenter(coordinates);
-
-  const [viewport, setViwport] = useState({
-    width: "100%",
-    height: "100%",
+  const cod = s.map((r) => ({
+    latitude: r.lat,
+    longitude: r.long,
+  }))
+  const center = getCenter(cod)
+  const [viewport, setViewport] = useState({
     latitude: center.latitude,
     longitude: center.longitude,
     zoom: 11,
-  });
-
+  })
   return (
-    <ReactMapGL
-      mapStyle="mapbox://styles/azrizzzz/ckslu9jmt0tiq17lz7zqgk2em"
+    <ReactMapGl
+      mapStyle='mapbox://styles/zigcer/cks0i5zbf2bmq18nn41layy0m'
       mapboxApiAccessToken={process.env.mapbox_key}
       {...viewport}
-      onViewportChange={(nextViewport) => setViwport(nextViewport)}
+      width='100%'
+      height='100%'
+      onViewportChange={(n) => setViewport(n)}
     >
-      {searchResults.forEach( result => (
-        <div key={result.long}>
-        <Marker
-          longitude={result.long}
-          latitude={result.lat}
-          offsetLeft={-20}
-          offsetTop={-10}
-        >
-          <p
-            role="img"
-            onClick={() => setSelectedLocation(result)}
-            className="cursor-pointer text-2xl animate-bounce"
-            aria-label="push-pin"
-          >
-            📌
-          </p>
-        </Marker>
-        {/* The popup show if marker is clicked */}
-        {selectedLocation.long === result.long ? (
-          <Popup
-            onClose={() => setSelectedLocation({})}
-            closeOnClick={true}
-            latitude={result.lat}
-            longitude={result.long}
-          >
-            {result.title}
-          </Popup>
-        ) : (
-          false
-        )}
-      </div>
-      ))}
-      
-      {/* {searchResults.map((result) => (
-        <div key={result.long}>
+      {s.map((r) => (
+        <div key={r.long}>
           <Marker
-            longitude={result.long}
-            latitude={result.lat}
+            longitude={r.long}
+            latitude={r.lat}
             offsetLeft={-20}
             offsetTop={-10}
           >
             <p
-              role="img"
-              onClick={() => setSelectedLocation(result)}
-              className="cursor-pointer text-2xl animate-bounce"
-              aria-label="push-pin"
+              role='img'
+              onClick={() => setSelect(r)}
+              aria-label='push pin'
+              className='cursor-pointer  text-2xl animate-bounce'
             >
               📌
             </p>
           </Marker>
-          {selectedLocation.long === result.long ? (
+          {select?.long === r.long ? (
             <Popup
-              onClose={() => setSelectedLocation({})}
+              onClose={() => setSelect({})}
+              latitude={r.lat}
+              longitude={r.long}
               closeOnClick={true}
-              latitude={result.lat}
-              longitude={result.long}
             >
-              {result.title}
+              {r.title}
             </Popup>
           ) : (
             false
           )}
-        </div> */}
-      {/* ))} */}
-    </ReactMapGL>
-  );
+        </div>
+      ))}
+    </ReactMapGl>
+  )
 }
 
-export default Map;
+export default Map
