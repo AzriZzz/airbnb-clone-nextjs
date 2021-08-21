@@ -12,7 +12,7 @@ function Map({ searchResults }) {
   // }));
 
   const coordinates = [];
-  searchResults.forEach((result) => {
+  searchResults?.forEach((result) => {
     coordinates.push({
       longitude: result.long,
       latitude: result.lat,
